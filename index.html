@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Handwriting OCR Demo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+    canvas {
+      border: 2px solid black;
+      touch-action: none;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Write your dream ✍️</h2>
+
+<canvas id="canvas" width="600" height="300"></canvas><br><br>
+
+<button onclick="clearCanvas()">Clear</button>
+<button onclick="recognize()">Recognize</button>
+
+<div id="output"></div>
+
+<script>
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// ✅ Fond blanc initial
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+// ✅ Paramètres du stylet
+ctx.lineWidth = 6;      // épaisseur du trait
+ctx.strokeStyle = "black";
+ctx.lineCap = "round";
+
+let drawing = false;
+
+// ✅ Gestion du dessin avec la souris
+canvas.addEventListener("mousedown", e => {
+  drawing = true;
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener("mousemove", e => {
+  if (!drawing) return;
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+});
+
+canvas.addEventListener("mouseup", () => drawing = false);
+canvas.addEventListener("mouseleave", () => drawing = false);
+
+// ✅ Fonction pour effacer le canvas
+function clearCanvas() {
+  ctx.fillStyle = "white";          // on remet le fond blanc
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  document.getElementById("output").innerText = "";
+}
+
+// ✅ Fonction pour envoyer l'image et récupérer le texte
+async function recognize() {
+  const image = canvas.toDataURL("image/png");
+
+  // 🔹 debug: vérifier que le canvas est capturé
+  console.log("Base64 image:", image.slice(0, 100));
+  console.log("Canvas size:", canvas.width, canvas.height);
+
+  const response = await fetch("http://127.0.0.1:8000/ocr", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image })
+  });
+
+  const data = await response.json();
+  document.getElementById("output").innerText =
+    "Recognized text: " + (data.text || "(rien détecté)");
+}
+
+
+
+
+</script>
+
+</body>
+</html>

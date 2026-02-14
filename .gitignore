@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# OCR/debug artifacts
+debug_from_canvas.png
+
+# OS
+.DS_Store
+Thumbs.db
