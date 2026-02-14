@@ -1,8 +1,9 @@
-fastapi
-uvicorn
-pydantic
-numpy
-opencv-python
-easyocr
-torch
-torchvision
+fastapi==0.115.8
+uvicorn[standard]==0.34.0
+pydantic==2.10.6
+numpy==1.26.4
+opencv-python-headless==4.10.0.84
+easyocr==1.7.2
+torch==2.5.1
+torchvision==0.20.1
+python-bidi==0.4.2
