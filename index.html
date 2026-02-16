@@ -147,7 +147,7 @@ async function recognize() {
   console.log("Base64 image:", image.slice(0, 100));
   console.log("Canvas size:", canvas.width, canvas.height);
 
-  const response = await fetch("http://127.0.0.1:8000/ocr", {
+  const response = await fetch("https://candelacsaez.github.io/EASYOCR-hanwriting-recognition/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ image })
