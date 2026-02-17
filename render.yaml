@@ -1,7 +1,7 @@
 services:
   - type: web
     name: easyocr-api
-    env: python
+    env: python3.11.11
     pythonVersion: 3.11.11
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app 
